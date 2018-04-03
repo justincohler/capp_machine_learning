@@ -1,3 +1,4 @@
+"""Basic Utilities for Homework 1."""
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,6 +8,22 @@ from functools import reduce
 import collections
 from datetime import datetime
 
+def retrieve2017Data():
+    """Return 2017 dataframes for alley, graffiti, and building 311 calls from downloaded csvs."""
+    alley = pd.read_csv("alley_data_2017.csv")
+    alley["Creation Date"] = pd.to_datetime(alley["Creation Date"])
+    alley["Completion Date"] = pd.to_datetime(alley["Completion Date"])
+
+    graffiti = pd.read_csv("graffiti_data_2017.csv")
+    graffiti["Creation Date"] = pd.to_datetime(graffiti["Creation Date"])
+    graffiti["Completion Date"] = pd.to_datetime(graffiti["Completion Date"])
+
+    building = pd.read_csv("building_data_2017.csv")
+    building["DATE SERVICE REQUEST WAS RECEIVED"] = pd.to_datetime(building["DATE SERVICE REQUEST WAS RECEIVED"])
+
+    return (alley, graffiti, building)
+
+
 def retrieveData():
     """Return dataframes for alley, graffiti, and building 311 calls from downloaded csvs."""
     dt = datetime(2017, 1, 1, 0, 0, 0, 0)
@@ -15,15 +32,18 @@ def retrieveData():
     alley["Creation Date"] = pd.to_datetime(alley["Creation Date"])
     alley["Completion Date"] = pd.to_datetime(alley["Completion Date"])
     alley = alley[alley["Creation Date"] >= dt]
+    alley.to_csv("alley_data_2017.csv")
 
     graffiti = pd.read_csv("311_Service_Requests_-_Graffiti_Removal.csv")
     graffiti["Creation Date"] = pd.to_datetime(graffiti["Creation Date"])
     graffiti["Completion Date"] = pd.to_datetime(graffiti["Completion Date"])
     graffiti = graffiti[graffiti["Creation Date"] >= dt]
+    graffiti.to_csv("graffiti_data_2017.csv")
 
     building = pd.read_csv("311_Service_Requests_-_Vacant_and_Abandoned_buildings_Reported.csv")
     building["DATE SERVICE REQUEST WAS RECEIVED"] = pd.to_datetime(building["DATE SERVICE REQUEST WAS RECEIVED"])
     building = building[building["DATE SERVICE REQUEST WAS RECEIVED"] >= dt]
+    building.to_csv("building_data_2017.csv")
 
     return (alley, graffiti, building)
 
