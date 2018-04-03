@@ -13,13 +13,17 @@ def retrieve2017Data():
     alley = pd.read_csv("alley_data_2017.csv")
     alley["Creation Date"] = pd.to_datetime(alley["Creation Date"])
     alley["Completion Date"] = pd.to_datetime(alley["Completion Date"])
+    alley["ZIP Code"] = alley["ZIP Code"].fillna(0).astype(int).astype(str)
 
     graffiti = pd.read_csv("graffiti_data_2017.csv")
     graffiti["Creation Date"] = pd.to_datetime(graffiti["Creation Date"])
     graffiti["Completion Date"] = pd.to_datetime(graffiti["Completion Date"])
+    graffiti["ZIP Code"] = graffiti["ZIP Code"].fillna(0).astype(int).astype(str)
+
 
     building = pd.read_csv("building_data_2017.csv")
     building["DATE SERVICE REQUEST WAS RECEIVED"] = pd.to_datetime(building["DATE SERVICE REQUEST WAS RECEIVED"])
+    building["ZIP CODE"] = building["ZIP CODE"].fillna(0).astype(int).astype(str)
 
     return (alley, graffiti, building)
 
