@@ -40,8 +40,8 @@ class Pipeline(Interface):
         """
         pass
 
-    def discretize(self, data, field):
-        """Return an updated dataframe with a discretized version of the given field."""
+    def discretize(self, data, field, bins=None, labels=None):
+        """Return a discretized Series of the given field."""
         pass
 
     def dummify(self, data, categorical):

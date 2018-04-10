@@ -35,9 +35,20 @@ class Neighbors(implements(Pipeline)):
         """
         return data.fillna(data.mean())
 
-    def discretize(self, data, field):
-        """Return an updated dataframe with a discretized version of the given field."""
-        pass
+    def discretize(self, data, field, bins=None, labels=None):
+        """Return a discretized Series of the given field."""
+        if not bins and not labels:
+            series = pd.qcut(data[field], q=4)
+        elif not labels and bins != None:
+            series = pd.qcut(data[field], q=bins)
+        elif not bins and labels != None:
+            series = pd.qcut(data[field], q=len(labels), labels=labels)
+        elif bins != len(labels):
+            raise IndexError("Bin size and label length must be equal.")
+        else:
+            series = pd.qcut(data[field], q=bins, labels=labels)
+
+        return series
 
     def dummify(self, data, categorical):
         """Return an updated dataframe with binary/dummy fields from the given categorical field."""

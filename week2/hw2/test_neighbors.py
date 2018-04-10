@@ -39,5 +39,21 @@ class TestNeighbors(unittest.TestCase):
         nullcheck = data['MonthlyIncome'].isnull()
         self.assertEqual(0, len(nullcheck[nullcheck==True]))
 
+    def test_discretize(self):
+        """Test the discretize() function."""
+        series1 = self.neighbors.discretize(self.data, "DebtRatio")
+        series2 = self.neighbors.discretize(self.data, "DebtRatio", labels=['excellent', 'good', 'fair', 'poor'])
+        series3 = self.neighbors.discretize(self.data, "DebtRatio", 4, ['excellent', 'good', 'fair', 'poor'])
+
+        self.assertEqual(len(series1), len(series2))
+        self.assertEqual(len(series1), len(series3))
+        self.assertEqual(len(series1), len(self.data['DebtRatio']))
+
+        try:
+            series4 = self.neighbors.discretize(self.data, "DebtRatio", 5, ['excellent', 'good', 'fair', 'poor'])
+        except IndexError as e:
+            print(str(e))
+            self.assertIn("Bin size and label length must be equal", e.args[0])
+
 if __name__ == '__main__':
     unittest.main()
