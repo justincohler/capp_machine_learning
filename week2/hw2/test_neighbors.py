@@ -5,13 +5,16 @@ Unit Tests for the Neighbors Pipeline.
 """
 import unittest
 from neighbors import Neighbors
+import os
+
 class TestNeighbors(unittest.TestCase):
     """Unit Tests for the Neighbors Pipeline."""
 
     def setUp(self):
         """Set up global vars for tests."""
         self.neighbors = Neighbors()
-        self.csv = r'C:\Users\Justin Cohler\workspaces\capp30254_ML\week2\hw2\credit-data.csv'
+        self.dirname = os.path.dirname(__file__)
+        self.csv = os.path.join(self.dirname, './credit-data.csv')
         self.data = self.neighbors.ingest(self.csv)
 
     def test_ingest(self):
