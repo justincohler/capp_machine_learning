@@ -8,7 +8,8 @@ Current Implementations:
 """
 from abc import ABC, abstractmethod
 import pandas as pd
-import sklearn
+import numpy as np
+from sklearn.cross_validation import train_test_split
 
 class Pipeline(ABC):
     """
@@ -48,15 +49,32 @@ class Pipeline(ABC):
         """Return an updated dataframe with binary/dummy fields from the given categorical field."""
         return data.join(pd.get_dummies(data[categorical]))
 
+    def model_and_split(self, data, features, target, test_size=None):
+        """Return train and test sets of the feature matrix and target series."""
+        X = np.array(data[features])
+        y= np.array(data[target])
+
+        if not test_size:
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=37)
+        else:
+            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=37)
+
+        return (X_train, X_test, y_train, y_test)
+
     @abstractmethod
-    def build_classifier(self, data):
-        """Return a built classifier specific to the implementation.
+    def classify(self, data, features, target, **kwargs):
+        """Return a trained classifier and test data specific to the implementation.
 
         (e.g. Logistic Regression, Decision Trees)
         """
         raise NotImplementedError
 
     @abstractmethod
-    def evaluate_classifier(self, data):
-        """Return evaluation for the implemented classifier."""
+    def predict(self, classifier, test_features):
+        """Return a prediction for the given classifier and test data."""
+        raise NotImplementedError
+
+    @abstractmethod
+    def evaluate_classifier(self, prediction, test_target):
+        """Return evaluation (float) for the implemented classifier."""
         raise NotImplementedError

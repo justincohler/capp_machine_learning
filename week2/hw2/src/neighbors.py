@@ -6,7 +6,9 @@ Neighbors is a basic ML pipeline implementation using a K-Nearest-Neighbors mode
 from .pipeline import Pipeline
 from abc import ABCMeta
 import pandas as pd
-import sklearn
+import numpy as np
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score
 
 class Neighbors(Pipeline):
     """Implement ML pipeline using a K-Nearest-Neighbors model."""
@@ -38,12 +40,22 @@ class Neighbors(Pipeline):
 
         return series
 
-    def build_classifier(self, data):
-        """Return a built classifier specific to the implementation.
+    def classify(self, data, features, target, **kwargs):
+        """Return a KNN classifier as well as remaining test data."""
+        if kwargs is not None and 'n_neighbors' in kwargs:
+            knn = KNeighborsClassifier(n_neighbors=kwargs['n_neighbors'])
+        else:
+            knn = KNeighborsClassifier() # defaults to 5 Neighbors
 
-        (e.g. Logistic Regression, Decision Trees).
-        """
-        pass
+        X_train, X_test, y_train, y_test = self.model_and_split(data, features, target)
+        knn.fit(X_train, y_train)
 
-    def evaluate_classifier(self, data):
-        """Return evaluation for the implemented classifier."""
+        return (knn, X_test, y_test)
+
+    def predict(self, classifier, test_features):
+        """Return a prediction for the given classifier and test data."""
+        return classifier.predict(test_features)
+
+    def evaluate_classifier(self, prediction, test_target):
+        """Return evaluation (float) for the implemented classifier."""
+        return accuracy_score(test_target, prediction)

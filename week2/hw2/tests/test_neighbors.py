@@ -65,5 +65,35 @@ class TestNeighbors(unittest.TestCase):
         data = self.neighbors.dummify(data, 'DebtClassification')
         self.assertIn('High Debt', data)
 
+    def test_classify(self):
+        """Test the classify() function."""
+        data = self.data
+        data['DebtClassification'] = self.neighbors.discretize(self.data, "DebtRatio", labels=['High Debt', 'Above Average Debt', 'Below Average Debt', 'Low Debt'])
+        data = self.neighbors.dummify(data, 'DebtClassification')
+
+        features = ['High Debt', 'Above Average Debt', 'Below Average Debt', 'Low Debt']
+        target = 'SeriousDlqin2yrs'
+        kwargs = {"n_neighbors": 3}
+        classifier, _, _= self.neighbors.classify(data, features, target, **kwargs)
+
+        self.assertIsNotNone(classifier)
+
+    def test_evaluate_classifier_smallk(self):
+        """Test evaluate_classifier on a small k."""
+        data = self.data
+        data = self.neighbors.preprocess(data)
+        data['DebtClassification'] = self.neighbors.discretize(self.data, "DebtRatio", labels=['High Debt', 'Above Average Debt', 'Below Average Debt', 'Low Debt'])
+        data = self.neighbors.dummify(data, 'DebtClassification')
+
+        features = ['High Debt', 'Above Average Debt', 'Below Average Debt', 'Low Debt']
+        target = 'SeriousDlqin2yrs'
+        kwargs = {"n_neighbors": 3}
+        classifier, test_features, test_target = self.neighbors.classify(data, features, target, **kwargs)
+        prediction = self.neighbors.predict(classifier, test_features)
+        evaluation = self.neighbors.evaluate_classifier(prediction, test_target)
+
+        print("Accuracy score for {} neighbors: {}".format(3, evaluation))
+
+
 if __name__ == '__main__':
     unittest.main()
