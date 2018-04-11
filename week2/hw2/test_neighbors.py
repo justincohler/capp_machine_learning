@@ -55,5 +55,12 @@ class TestNeighbors(unittest.TestCase):
             print(str(e))
             self.assertIn("Bin size and label length must be equal", e.args[0])
 
+    def test_dummify(self):
+        """Test the dummify() function."""
+        data = self.data
+        data['DebtClassification'] = self.neighbors.discretize(self.data, "DebtRatio", labels=['High Debt', 'Above Average Debt', 'Below Average Debt', 'Low Debt'])
+        data = self.neighbors.dummify(data, 'DebtClassification')
+        self.assertIn('High Debt', data)
+
 if __name__ == '__main__':
     unittest.main()

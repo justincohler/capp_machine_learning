@@ -3,29 +3,17 @@ Neighbors is a basic ML pipeline implementation using a K-Nearest-Neighbors mode
 
 @author: Justin Cohler
 """
-from interface import implements
 from pipeline import Pipeline
+from abc import ABCMeta
 import pandas as pd
 import sklearn
 
-class Neighbors(implements(Pipeline)):
+class Neighbors(Pipeline):
     """Implement ML pipeline using a K-Nearest-Neighbors model."""
 
     def __init__(self):
-        """Set up k-nearest-neighbor specific vars."""
-        pass
-
-    def ingest(self, source):
-        """Return a pandas dataframe of the data from a given source string."""
-        return pd.read_csv(source)
-
-    def distribution(self, data):
-        """Return the distribution in the dataframe."""
-        return data.describe()
-
-    def correlation(self, *fields):
-        """Return the correlation matrix between the given fields."""
-        pass
+        """Set up k-nearest-neighbor specific globals."""
+        super().__init__()
 
     def preprocess(self, data):
         """
@@ -49,10 +37,6 @@ class Neighbors(implements(Pipeline)):
             series = pd.qcut(data[field], q=bins, labels=labels)
 
         return series
-
-    def dummify(self, data, categorical):
-        """Return an updated dataframe with binary/dummy fields from the given categorical field."""
-        pass
 
     def build_classifier(self, data):
         """Return a built classifier specific to the implementation.
