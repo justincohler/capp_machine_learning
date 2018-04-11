@@ -4,7 +4,7 @@ Unit Tests for the Neighbors Pipeline.
 @author: Justin Cohler
 """
 import unittest
-from neighbors import Neighbors
+from ..src.neighbors import Neighbors
 import os
 
 class TestNeighbors(unittest.TestCase):
@@ -14,7 +14,7 @@ class TestNeighbors(unittest.TestCase):
         """Set up global vars for tests."""
         self.neighbors = Neighbors()
         self.dirname = os.path.dirname(__file__)
-        self.csv = os.path.join(self.dirname, './credit-data.csv')
+        self.csv = os.path.join(self.dirname, '../data/credit-data.csv')
         self.data = self.neighbors.ingest(self.csv)
 
     def test_ingest(self):

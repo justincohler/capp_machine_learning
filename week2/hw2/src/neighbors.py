@@ -3,7 +3,7 @@ Neighbors is a basic ML pipeline implementation using a K-Nearest-Neighbors mode
 
 @author: Justin Cohler
 """
-from pipeline import Pipeline
+from .pipeline import Pipeline
 from abc import ABCMeta
 import pandas as pd
 import sklearn
