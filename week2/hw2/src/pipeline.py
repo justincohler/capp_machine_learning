@@ -78,3 +78,8 @@ class Pipeline(ABC):
     def evaluate_classifier(self, prediction, test_target):
         """Return evaluation (float) for the implemented classifier."""
         raise NotImplementedError
+
+    @abstractmethod
+    def classify_cross_validate(self, data, features, target, **kwargs):
+        """Return a cross-validated KNN classifier, as well as remaining test data."""
+        raise NotImplementedError

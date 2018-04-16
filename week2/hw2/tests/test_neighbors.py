@@ -4,7 +4,7 @@ Unit Tests for the Neighbors Pipeline.
 @author: Justin Cohler
 """
 import unittest
-from ..src.neighbors import Neighbors
+from week2.hw2.src.neighbors import Neighbors
 import os
 
 class TestNeighbors(unittest.TestCase):
@@ -93,6 +93,20 @@ class TestNeighbors(unittest.TestCase):
         evaluation = self.neighbors.evaluate_classifier(prediction, test_target)
 
         print("Accuracy score for {} neighbors: {}".format(3, evaluation))
+
+    @unittest.skip
+    def test_classify_cross_validate(self):
+        """Test the classify_cross_validate() function for a range of neighborsets."""
+        data = self.data
+        data = self.neighbors.preprocess(data)
+        data['DebtClassification'] = self.neighbors.discretize(self.data, "DebtRatio", labels=['High Debt', 'Above Average Debt', 'Below Average Debt', 'Low Debt'])
+        data = self.neighbors.dummify(data, 'DebtClassification')
+
+        features = ['High Debt', 'Above Average Debt', 'Below Average Debt', 'Low Debt']
+        target = 'SeriousDlqin2yrs'
+        kwargs = {"folds": 10, "k_range": [5, 10, 25, 50, 100]}
+
+        self.neighbors.classify_cross_validate(data, features, target, **kwargs)
 
 
 if __name__ == '__main__':
