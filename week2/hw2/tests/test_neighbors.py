@@ -27,9 +27,9 @@ class TestNeighbors(unittest.TestCase):
     def test_distribution(self):
         """Test the distribution() function."""
         self.assertIsNotNone(self.data)
-        distribution = self.neighbors.distribution(self.data)
+        distribution_data = self.neighbors.distribution(self.data)
 
-        print(distribution)
+        self.assertIsNotNone(distribution_data)
 
     def test_preprocess(self):
         """Test the preprocess() function."""

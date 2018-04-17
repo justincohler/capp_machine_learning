@@ -10,6 +10,7 @@ from abc import ABC, abstractmethod
 import pandas as pd
 import numpy as np
 from sklearn.cross_validation import train_test_split
+import pandas_profiling
 
 class Pipeline(ABC):
     """
@@ -25,7 +26,7 @@ class Pipeline(ABC):
 
     def distribution(self, data):
         """Return the distribution in the dataframe."""
-        return data.describe()
+        return pandas_profiling.ProfileReport(data)
 
     def correlation(self, *fields):
         """Return the correlation matrix between the given fields."""
