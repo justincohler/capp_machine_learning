@@ -372,7 +372,7 @@ class Pipeline():
                         baseline, baseline, {}, y_test, y_pred_probs))
         return results
 
-
+"""
 if __name__ == "__main__":
     pd.options.display.max_rows = 999
 
@@ -398,3 +398,4 @@ if __name__ == "__main__":
     # 'LR', 'KNN', 'DT', 'RF', 'GB', 'NB'
     results_df = pipeline.run_temporal(['LR', 'KNN'], projects, outcomes, start, end)
     logger.info(results_df)
+"""
