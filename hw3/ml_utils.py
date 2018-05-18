@@ -1,3 +1,11 @@
+"""
+Attribution to https://github.com/rayidghani/magicloops for the following helper functions:
+- plot functions
+- precision_at_k
+- generate_binary_at_k
+- join_sort_descending
+- recall_at_k 
+"""
 import os
 import sys
 import numpy as np
